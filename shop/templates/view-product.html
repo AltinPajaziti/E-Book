@@ -1,0 +1,100 @@
+{% extends 'layouts/app.html'  %}
+
+{% block 'title' %} {{product.name}} {% endblock %}
+
+{% load mathfilters %}
+
+{% block 'content' %} 
+{% block 'css' %}
+    <style>
+      #home {
+        display: none;
+      }
+      
+
+   
+        .small-img-group{
+            display: flex;
+            justify-content: space-between;
+        }
+        .small-img-col{
+            flex-basis: 24%;
+            cursor: pointer;
+        }
+        .sproduct select{
+            display: block;
+            padding: 5px 10px;
+
+             
+        }
+        .sproduct input{
+            width: 50px;
+            height: 40px;
+            padding-left: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+
+        }
+        .sproduct input:focus{
+            outline: none;
+
+        }
+        .buy-btn{
+            background-color: coral;
+            opacity: 1;
+            transition: 0.3 all;
+        }
+        #linku{
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+    </style>
+    {% endblock %}
+<body>
+ 
+  <section class="container sproduct my-5 pt-5 ">
+    <div class="row mt-5">
+        <div class="col-lg-5 col-md-12 col-12">
+            <img id="MainImg" class="img-fluid w-100 pb-1" src="/media/{{ product.image }}" alt="">
+            
+        </div>
+        <div class="col-lg-5 col-md-12 col-12">
+            <h6>Home/books</h6>
+            <h3 class="py-4">{{product.name}}</h3>
+            <h2> <span {% if product.discount %} class="text-decoration-line-through" {% endif %}>{{ product.price }} &euro;</span>
+              <br>
+              {% if product.discount %} 
+              <span class="badge bg-danger d-inline-block me-2">{{ product.discount }}%</span> 
+              {{ product.price|mul:product.discount|div:100|sub:product.price|mul:-1|floatformat:2 }} &euro;
+          {% endif %}</h2>
+                
+                <form action="{% url 'cart_add' product.id %}" method="POST">
+                  {% csrf_token %}
+                  <div class="form-group">
+                      <label for="quantity">Sasia:</label>
+                      <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="50">
+                      <input type="hidden" name="product_id" value="{{ product.id }}">
+                  </div>
+                  {% if not user.is_authenticated %}
+                  <span>To add this iteam to your cart you should login first </span>
+              <a class="buy-btn" id="linku" href="{% url 'login' %}">Login</a>
+              {% else %}
+
+                  <button type="submit"  class="buy-btn">Add to cart</button>
+                  {% endif %}
+              </form>
+                <h4 class="mt-5 mb-5">Product details</h4>
+                <span>{{ product.description }}</span>
+        </div>
+    </div>
+  </section>
+ 
+
+
+
+</html>
+
+
+{% endblock %}

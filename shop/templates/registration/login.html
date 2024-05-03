@@ -1,0 +1,42 @@
+{% extends 'layouts/app.html' %}
+
+
+{% block 'title' %} Login {% endblock %}
+
+{% block 'content' %} 
+{% block 'css' %}
+    <style>
+      #home {
+        display: none;
+      }
+      #forma input{
+        width: 250px;
+        margin-bottom: 10px;
+      }
+      #forma label{
+        display: block;
+      }
+      </style>
+      
+      {% endblock %}
+
+      <br><br><br>
+    <div class="auth">
+        <div class="container my-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'login' %}" method="POST" id="forma">
+                        {% csrf_token %}
+                        {{form}}
+                        <button type="submit" class="btn btn-primary">login</button>
+                        <a href="{% url 'register' %}">register</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

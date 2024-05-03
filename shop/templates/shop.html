@@ -1,0 +1,52 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Shop{% endblock %}
+
+{% load mathfilters %}
+
+
+
+
+{% block 'content' %}
+{% block 'css' %}
+    <style>
+      #home {
+        display: none;
+      }
+      
+
+      
+    </style>
+    {% endblock %}
+
+
+
+<section id="featured" class="my-5 py-5">
+    <div class="container mt-5 py-5">
+        <h2 class="font-weight-bold">Our Featured</h2>
+        <hr>
+        <p>Here you can check out our new products with fair prices on rymo</p>
+    </div>
+    <div class="row mx-auto container">
+        {% for product in products %}
+        <div class="product text-center col-lg-3 col-md-4 col-12">
+            <img class="img-fluid mb-3" src="/media/{{ product.image }}" alt="{{ product.name }}">
+            <div class="star">
+                {% for _ in "12345" %}
+                <i class="fa-solid fa-star"></i>
+                {% endfor %}
+            </div>
+            <h5 class="p-name">{{ product.name }}</h5>
+            <h4 class="p-price">{{ product.price|floatformat:2 }} &euro;</h4>
+            {% if product.discount %}
+            <span  class="badge bg-danger d-inline-block me-2">{{ product.discount }}%</span>
+            {{ product.price|mul:product.discount|div:100|sub:product.price|mul:-1|floatformat:2 }} &euro;
+            {% endif %}
+            <button class="buy-btn"><a href="{% url 'view-product' product.id %}" style="text-decoration: none; color: inherit;">shop now</a></button>
+        </div>
+        {% endfor %}
+    </div>
+
+   
+</section>
+{% endblock %}

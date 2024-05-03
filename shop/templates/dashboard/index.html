@@ -1,0 +1,72 @@
+{% extends 'layouts/app.html'  %}
+
+{% block 'title' %} Dashboard {% endblock %}
+
+
+{% block 'content' %} 
+
+{% block 'css' %}
+    <style>
+      #home {
+        display: none;
+      }
+      
+
+      
+    </style>
+    {% endblock %}
+<!-- Filters -->
+<div class="filters py-3">
+    <div class="container d-flex justify-content-flex-start">
+        {% if perms.products.view_product %}
+        <div class="me-3 border px-4">
+            <h3 class="mb-0">{{products}}</h3>
+            <p>Products</p>
+        </div>
+        {% endif %}
+        {% if orders|length > 0 %}
+        <div class="me-3 border px-4">
+            <h3 class="mb-0">{{orders|length}}</h3>
+            <p>Orders</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Order -->
+{% if orders %}
+<div class="orders bg-light py-5">
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Customer data</th>
+                    <th>Total</th>
+                    {% if perms.orders.delete_order %}
+                    <th></th>
+                    {% endif %}
+                </tr>
+                {% for order in orders %}
+                <tr>
+                    <td>{{order.description|safe}}</td>
+                    <td>{{order.total|floatformat:2}} EUR</td>
+                    {% if perms.orders.delete_order %}
+                    <td>
+                        <a href="{% url 'delete-order' order.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container d-flex justify-content-between">
+    <div>
+        <h3>Hey {{user.username}}</h3>
+        <p>Explore products @ our <a href="{% url 'shop' '' %}" class="btn btn-sm btn-outline-primary">Shop</a></p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

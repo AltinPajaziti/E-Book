@@ -1,0 +1,91 @@
+{% extends 'layouts/app.html' %}
+
+
+{% block 'title' %} Home {% endblock %}
+{% load mathfilters %}
+{% load static %}
+
+
+{% block 'content' %}
+
+
+
+
+    
+<section id="brand" class="container">
+  <div class="row m-0 py-5">
+    {% for header_product in header_products %}
+    <img class="img-fluid col-lg-2 col-md-4 col-6" src="media/{{ header_product.image }}" style="width: 150px;">
+
+
+    {% endfor %}
+
+  </div>
+</section>
+
+<section id="new" class="w-100">
+  <div class="row p-0 m-0">
+    {% for rare_book in rare_books %}
+    <div class="one col-lg-4 col-md-12 col-12 p-0">
+      <img class="img-fluid" src="media/{{ rare_book.image }}" alt="">
+      <div class="details">
+        <h2>Extreme rare Book</h2>
+
+
+        <a href="{% url 'view-product' rare_book.id %}" class="btn btn-outline-secondary">shop now</a>
+      </div>
+    </div>
+    {% endfor %}
+
+
+  </div>
+</section><section id="featured" class="my-5 pb-5">
+  <div class="container text-center mt-5 py-5">
+    <h3>Our latest books</h3>
+    <hr class="mx-auto">
+    <p>Here you can check out our new books with fair prices</p>
+  </div>
+  <div class="row mx-auto container-fluid">
+    {% for product in latest_products %}
+    <div class="product text-center col-lg-3 col-md-4 col-12">
+      <img class="img-fluid mb-3" src="{{ product.image.url }}" alt="{{ product.title }}">
+      <div class="star">
+        {% for _ in "12345" %}
+        <i class="fa-solid fa-star"></i>
+        {% endfor %}
+      </div>
+      <h5 class="p-name">{{ product.name }}</h5>
+      <h4 class="p-price">
+        <span {% if product.discount %} class="text-decoration-line-through" {% endif %}>
+          {{ product.price|floatformat:2 }} &euro;
+        </span>
+        <br>
+        {% if product.discount %}
+        <span class="badge bg-danger d-inline-block me-2">{{ product.discount }}%</span>
+        {{ product.price|mul:product.discount|div:100|sub:product.price|mul:-1|floatformat:2 }} &euro;
+        {% endif %}
+      </h4>
+      <button class="buy-btn"><a href="{% url 'view-product' product.id %}" style="text-decoration: none; color: inherit;">shop now</a></button>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+<section id="banner" class="my-5 py-5">
+  <div class="container">
+    <h4>
+      Here you can check out our new books with fair prices
+    </h4>
+    <h1> Our  books<br>up to 20% off</h1>
+    <button><a href="{% url 'shop' '' %}" style="text-decoration: none; color: inherit;">shop now</a></button>
+  </div>
+</section>
+
+
+
+
+</body>
+
+</html>
+{% endblock %}
