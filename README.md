@@ -1,0 +1,1 @@
+The e-book store project facilitates users in ordering books while providing administrators with tools to efficiently manage these orders. Developed using a combination of HTML, CSS, JS, Bootstrap, and Python-Django, the platform ensures a user-friendly interface for browsing and selecting books
