@@ -53,4 +53,4 @@ This application is built using the following technologies:
 
 ### 1. **Clone the Repository**:
 ```bash
-git clone https://github.com/username/eBookStore.git
+git clone https://github.com/AltinPajaziti/E-Book.git
